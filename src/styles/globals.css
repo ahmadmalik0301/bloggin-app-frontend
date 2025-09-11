@@ -1,0 +1,22 @@
+/* Import Tailwind preflight (reset) and utilities */
+@import "tailwindcss";
+
+/* Optional global overrides */
+body {
+  @apply bg-gray-50 text-gray-900 font-sans;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  @apply text-blue-600 hover:underline;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold;
+}
