@@ -4,8 +4,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Posts from "./pages/PostDetail";
+import Posts from "./pages/Post";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import AdminDashboard from "./pages/Dashboard/AdminDashboard";
+import CreatePost from "./pages/Dashboard/CreatePost";
+import ManagePosts from "./pages/Dashboard/ManagePosts";
+import PostDetail from "./pages/PostDetail";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +29,10 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/create-post" element={<CreatePost />} />
+        <Route path="/admin/manage-posts" element={<ManagePosts />} />
+        <Route path="/post/:id" element={<PostDetail />} />
       </Routes>
     </Router>
   );

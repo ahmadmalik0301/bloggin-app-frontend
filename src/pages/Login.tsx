@@ -1,9 +1,7 @@
-// src/pages/Login.tsx
 import React, { useState } from "react";
 import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api"; // axios instance
-
+import axios from "axios";
 const Login: React.FC = () => {
   const navigate = useNavigate();
 
@@ -14,13 +12,20 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const res = await api.post("/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "http://localhost:3000/auth/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
       if (res.data?.data?.accessToken) {
         localStorage.setItem("accessToken", res.data.data.accessToken);
+      }
+      if (res.data?.data?.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.data.user));
       }
 
       navigate("/posts");

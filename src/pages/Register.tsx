@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api"; // ✅ axios instance
+import axios from "axios";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Register: React.FC = () => {
     if (dateOfBirth.trim()) payload.dateOfBirth = dateOfBirth;
 
     try {
-      await api.post("/auth/signup", payload);
+      await axios.post("http://localhost:3000/auth/signup", payload);
 
       navigate("/login");
       console.log("Signup payload:", payload);
