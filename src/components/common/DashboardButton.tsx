@@ -20,7 +20,13 @@ const DashboardButton: React.FC = () => {
   return (
     <button
       onClick={handleClick}
-      className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+      className="px-5 py-2.5 
+                 bg-gradient-to-r from-indigo-600 to-purple-600 
+                 text-white font-medium tracking-wide 
+                 rounded-xl shadow-md 
+                 hover:from-indigo-500 hover:to-purple-500 
+                 focus:outline-none focus:ring-2 focus:ring-purple-400/50 
+                 transition duration-300"
     >
       Dashboard
     </button>

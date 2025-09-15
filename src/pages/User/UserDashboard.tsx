@@ -47,46 +47,60 @@ const Dashboard: React.FC = () => {
   }, []);
 
   if (loading) return <Loader />;
-  if (error) return <p className="text-red-600 text-center mt-6">{error}</p>;
+  if (error)
+    return <p className="text-red-400 text-center mt-6 font-medium">{error}</p>;
 
   return (
     <>
       <Header />
-      <main className="p-6 min-h-screen max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-
+      <main className="p-6 min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black">
         {user && (
-          <div className="bg-white shadow-md rounded-xl p-6 space-y-4">
-            <p>
-              <span className="font-semibold">First Name:</span>{" "}
-              {user.firstName}
-            </p>
-            <p>
-              <span className="font-semibold">Last Name:</span> {user.lastName}
-            </p>
-            <p>
-              <span className="font-semibold">Email:</span> {user.email}
-            </p>
-            <p>
-              <span className="font-semibold">Role:</span> {user.role}
-            </p>
-            <p>
-              <span className="font-semibold">Auth Method:</span>{" "}
-              {user.provider}
-            </p>
-            <p>
-              <span className="font-semibold">Date of Birth:</span>{" "}
-              {user.dateOfBirth
-                ? new Date(user.dateOfBirth).toLocaleDateString()
-                : "Not provided"}
-            </p>
+          <div className="bg-gray-800 text-gray-100 shadow-2xl rounded-2xl p-8 w-full max-w-2xl border border-gray-700 space-y-4">
+            <h1 className="text-3xl font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 mb-6">
+              Dashboard
+            </h1>
 
-            <button
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              onClick={() => navigate("/user/change-password")}
-            >
-              Change Password
-            </button>
+            <div className="space-y-3">
+              <p>
+                <span className="font-semibold text-gray-300">First Name:</span>{" "}
+                {user.firstName}
+              </p>
+              <p>
+                <span className="font-semibold text-gray-300">Last Name:</span>{" "}
+                {user.lastName}
+              </p>
+              <p>
+                <span className="font-semibold text-gray-300">Email:</span>{" "}
+                {user.email}
+              </p>
+              <p>
+                <span className="font-semibold text-gray-300">Role:</span>{" "}
+                {user.role}
+              </p>
+              <p>
+                <span className="font-semibold text-gray-300">
+                  Auth Method:
+                </span>{" "}
+                {user.provider}
+              </p>
+              <p>
+                <span className="font-semibold text-gray-300">
+                  Date of Birth:
+                </span>{" "}
+                {user.dateOfBirth
+                  ? new Date(user.dateOfBirth).toLocaleDateString()
+                  : "Not provided"}
+              </p>
+            </div>
+
+            <div className="flex justify-center">
+              <button
+                className="mt-6 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold shadow-md hover:from-blue-500 hover:to-purple-500 transition-all"
+                onClick={() => navigate("/user/change-password")}
+              >
+                Change Password
+              </button>
+            </div>
           </div>
         )}
       </main>

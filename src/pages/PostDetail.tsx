@@ -79,7 +79,7 @@ const PostDetail: React.FC = () => {
   useEffect(() => {
     if (id) {
       fetchPostData();
-      fetchLikers(1, false); // load first page
+      fetchLikers(1, false);
       setPage(1);
     }
   }, [id]);
@@ -91,8 +91,6 @@ const PostDetail: React.FC = () => {
         const likedNow = res.data.data.liked;
         setLiked(likedNow);
         setLikeCount((prev) => (likedNow ? prev + 1 : prev - 1));
-
-        // refresh likers (start from page 1 again to stay in sync)
         fetchLikers(1, false);
         setPage(1);
       }
@@ -102,67 +100,85 @@ const PostDetail: React.FC = () => {
     }
   };
 
-  if (loading) return <Loader />;
-  if (error) return <p className="text-red-600 text-center mt-6">{error}</p>;
-  if (!post) return <p className="text-center mt-6">Post not found</p>;
+  if (loading)
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  if (error) return <p className="text-red-400 text-center mt-6">{error}</p>;
+  if (!post)
+    return <p className="text-gray-400 text-center mt-6">Post not found</p>;
 
   return (
     <>
       <Header />
-      <main className="p-6 min-h-screen max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
-        <p className="text-gray-500 mb-4">{post.tagLine}</p>
-        <div className="prose max-w-full">{post.body}</div>
+      <main className="p-6 min-h-screen bg-gray-900 text-gray-100">
+        <div className="max-w-4xl mx-auto rounded-xl shadow-lg p-6 bg-gray-900">
+          {/* Title */}
+          <h1 className="text-4xl font-extrabold mb-2 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-md">
+            {post.title}
+          </h1>
+          <p className="text-gray-400 text-center mb-6 italic">
+            {post.tagLine}
+          </p>
 
-        {/* like button */}
-        <div className="mt-6 flex items-center gap-4">
-          <button
-            onClick={toggleLike}
-            className={`
-              flex items-center gap-2 px-3 py-1.5 rounded-full 
-              transition-colors duration-200
-              ${
-                liked
-                  ? "bg-red-100 text-red-600 hover:bg-red-200"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }
-              font-medium
-            `}
-          >
-            <span className="text-lg">{liked ? "❤️" : "🤍"}</span>
-            <span>{likeCount}</span>
-          </button>
-        </div>
+          {/* Body */}
+          <div className="prose prose-invert max-w-full leading-relaxed text-lg bg-gray-800 p-6 rounded-xl shadow-inner">
+            {post.body}
+          </div>
 
-        {/* likers list */}
-        <LikedByList users={likedBy} />
-
-        {/* load more button */}
-        {hasMore && (
-          <div className="mt-4 text-center">
+          {/* Like button */}
+          <div className="mt-8 flex items-center justify-center gap-4">
             <button
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-              onClick={() => {
-                const nextPage = page + 1;
-                fetchLikers(nextPage, true);
-                setPage(nextPage);
-              }}
+              onClick={toggleLike}
+              className={`flex items-center gap-2 px-5 py-2 rounded-full font-medium transition-all duration-200 shadow-md ${
+                liked
+                  ? "bg-gradient-to-r from-red-500 to-pink-600 text-white hover:scale-105"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white"
+              }`}
             >
-              Load More
+              <span className="text-xl">{liked ? "❤️" : "🤍"}</span>
+              <span>{likeCount}</span>
             </button>
           </div>
-        )}
 
-        <p className="text-gray-400 mt-4">
-          Created at: {new Date(post.createdAt).toLocaleString()}
-        </p>
+          {/* Likers list */}
+          <div className="mt-6">
+            <LikedByList users={likedBy} />
+          </div>
 
-        <button
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          onClick={() => navigate(-1)}
-        >
-          Back
-        </button>
+          {/* Load more button */}
+          {hasMore && (
+            <div className="mt-6 text-center">
+              <button
+                className="px-5 py-2 bg-gray-700 text-gray-200 rounded-lg hover:bg-gray-600 hover:text-white transition-all"
+                onClick={() => {
+                  const nextPage = page + 1;
+                  fetchLikers(nextPage, true);
+                  setPage(nextPage);
+                }}
+              >
+                Load More
+              </button>
+            </div>
+          )}
+
+          {/* Meta info */}
+          <p className="text-gray-500 text-sm mt-6 text-center">
+            Created at: {new Date(post.createdAt).toLocaleString()}
+          </p>
+
+          {/* Back button */}
+          <div className="mt-6 text-center">
+            <button
+              className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:scale-105 transition-all shadow-md"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+          </div>
+        </div>
       </main>
       <Footer />
     </>

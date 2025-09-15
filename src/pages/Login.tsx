@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../components/HeaderFooter/Header";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -39,55 +40,60 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4">
-      <h1 className="text-3xl font-bold mb-6">Login</h1>
-
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 py-6 w-full max-w-md space-y-4"
-      >
-        <Input
-          label="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
-        <Input
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-        >
+    <>
+      <Header />
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100">
+        <h1 className="text-4xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-lg">
           Login
-        </button>
+        </h1>
 
-        <button
-          type="button"
-          onClick={handleGoogleLogin}
-          className="w-full mt-2 bg-red-500 text-white py-2 rounded hover:bg-red-600"
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-800/70 backdrop-blur-md shadow-xl rounded-2xl px-8 py-6 w-full max-w-md space-y-4 border border-gray-700"
         >
-          Login with Google
-        </button>
+          <Input
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        {/* Forgot password link */}
-        <p className="text-sm text-center mt-4">
-          <span
-            onClick={() => navigate("/user/request-reset-password")}
-            className="text-blue-600 hover:underline cursor-pointer"
+          <Input
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button
+            type="submit"
+            className="w-full py-2 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-md"
           >
-            Forgot Password?
-          </span>
-        </p>
-      </form>
-    </div>
+            Login
+          </button>
+
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="w-full mt-2 py-2 rounded-xl font-semibold text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 transition-all duration-200 shadow-md"
+          >
+            Login with Google
+          </button>
+
+          {/* Forgot password link */}
+          <p className="text-sm text-center mt-4 text-gray-400">
+            <span
+              onClick={() => navigate("/user/request-reset-password")}
+              className="text-blue-400 hover:underline cursor-pointer"
+            >
+              Forgot Password?
+            </span>
+          </p>
+        </form>
+      </div>
+    </>
   );
 };
 

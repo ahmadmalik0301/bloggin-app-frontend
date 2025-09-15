@@ -39,44 +39,53 @@ const ResetPasswordRequest: React.FC = () => {
   return (
     <>
       <Header />
-      <main className="p-6 min-h-screen max-w-md mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Reset Password</h1>
+      <main className="p-6 min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black">
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded-xl p-6 space-y-4"
+          className="bg-gray-800 text-gray-100 shadow-2xl rounded-2xl p-8 w-full max-w-md space-y-5 border border-gray-700"
         >
-          {message && <p className="text-green-600">{message}</p>}
-          {error && <p className="text-red-600">{error}</p>}
+          <h1 className="text-3xl font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            Reset Password
+          </h1>
+
+          {message && (
+            <p className="text-green-400 text-center font-medium">{message}</p>
+          )}
+          {error && (
+            <p className="text-red-400 text-center font-medium">{error}</p>
+          )}
 
           <div>
-            <label className="block font-semibold mb-1">Email Address</label>
+            <label className="block font-semibold mb-1 text-gray-300">
+              Email Address
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-gray-900 border border-gray-700 px-3 py-2 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 rounded-lg font-semibold shadow-md hover:from-blue-500 hover:to-purple-500 transition-all disabled:opacity-50"
           >
             {loading ? "Sending..." : "Request Reset Link"}
           </button>
-        </form>
 
-        <p className="text-sm text-center mt-4">
-          Remembered your password?{" "}
-          <span
-            onClick={() => navigate("/login")}
-            className="text-blue-600 hover:underline cursor-pointer"
-          >
-            Login
-          </span>
-        </p>
+          <p className="text-sm text-center text-gray-400">
+            Remembered your password?{" "}
+            <span
+              onClick={() => navigate("/login")}
+              className="text-blue-400 hover:underline cursor-pointer"
+            >
+              Login
+            </span>
+          </p>
+        </form>
       </main>
       <Footer />
     </>

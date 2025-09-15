@@ -23,20 +23,25 @@ const LikedByList: React.FC<Props> = ({ users }) => {
   if (!users.length) return null;
 
   return (
-    <div className="mt-6 p-4 bg-gray-50 rounded-lg shadow-sm">
-      <p className="text-gray-700 font-semibold mb-2">Liked by:</p>
+    <div className="mt-6 p-4 bg-gray-900 rounded-xl shadow-md border border-gray-700">
+      <p className="text-gray-200 font-semibold mb-3 tracking-wide">
+        Liked by:
+      </p>
       <ul className="space-y-2">
         {users.map((user) => (
           <li
             key={user.id}
-            className="flex items-center gap-3 bg-white p-2 rounded-md shadow-sm hover:bg-gray-100 transition"
+            className="flex items-center gap-3 bg-gray-800 p-3 rounded-lg shadow-sm hover:bg-gray-700 transition duration-300"
           >
-            <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">
+            {/* Avatar circle */}
+            <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-full flex items-center justify-center font-bold shadow-md">
               {user.firstName[0]}
             </div>
-            <div className="text-gray-700">
+
+            {/* User details */}
+            <div className="text-gray-300">
               {user.firstName} {user.lastName}{" "}
-              <span className="text-gray-400 text-sm">
+              <span className="text-gray-500 text-sm">
                 ({maskEmail(user.email)})
               </span>
             </div>

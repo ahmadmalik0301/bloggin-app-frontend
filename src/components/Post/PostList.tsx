@@ -12,8 +12,16 @@ interface Post {
 }
 
 const PostList: React.FC<{ posts: Post[] }> = ({ posts }) => {
+  if (!posts.length) {
+    return (
+      <div className="text-center py-10 text-gray-400 italic">
+        No posts available.
+      </div>
+    );
+  }
+
   return (
-    <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1">
+    <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}

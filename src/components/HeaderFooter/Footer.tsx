@@ -3,10 +3,12 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gradient-to-r from-blue-500 to-purple-600 border-t border-gray-200 py-6 mt-10">
+    <footer className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-t border-gray-700 py-6">
       <div className="max-w-5xl mx-auto px-4 text-center">
-        <p className="text-white text-sm">
-          © {new Date().getFullYear()} MyBlog. All rights reserved.
+        <p className="text-gray-400 text-sm tracking-wide">
+          © {new Date().getFullYear()}{" "}
+          <span className="text-purple-400 font-semibold">MyBlog</span>. All
+          rights reserved.
         </p>
       </div>
     </footer>

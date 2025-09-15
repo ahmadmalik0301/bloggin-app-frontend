@@ -4,7 +4,7 @@ import api from "../services/api";
 import Header from "../components/HeaderFooter/Header";
 import Footer from "../components/HeaderFooter/Footer";
 import PostList from "../components/Post/PostList";
-import Loader from "../components/common/Loader"; // ✅ import loader
+import Loader from "../components/common/Loader";
 
 interface Post {
   id: string;
@@ -26,7 +26,7 @@ const PostPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await api.get(`/post?page=${pageNumber}&limit=5`);
+      const res = await api.get(`/post?page=${pageNumber}&limit=6`);
 
       if (res.data.status === "success") {
         setPosts(res.data.data);
@@ -49,33 +49,37 @@ const PostPage: React.FC = () => {
   return (
     <>
       <Header />
-      <main className="p-6 min-h-screen">
-        <h1 className="text-3xl font-bold mb-6">Posts</h1>
+      <main className="p-6 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100">
+        <h1 className="text-4xl font-extrabold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-lg">
+          Posts
+        </h1>
 
         {/* Loader */}
         {loading && <Loader />}
 
         {/* Error */}
-        {error && <p className="text-red-600">{error}</p>}
+        {error && (
+          <p className="text-red-400 text-center font-medium mt-4">{error}</p>
+        )}
 
         {/* Post list */}
         {!loading && !error && <PostList posts={posts} />}
 
         {/* Pagination */}
         {!loading && !error && totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-6 flex-wrap">
+          <div className="flex justify-center items-center gap-3 mt-8 flex-wrap">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
               (pageNum) => (
                 <button
                   key={pageNum}
                   onClick={() => {
                     setPage(pageNum);
-                    window.scrollTo({ top: 0, behavior: "smooth" }); // ✅ scroll to top
+                    window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
-                  className={`px-4 py-2 rounded transition ${
+                  className={`px-4 py-2 rounded-xl font-semibold transition-all duration-200 shadow-md ${
                     page === pageNum
-                      ? "bg-blue-500 text-white font-semibold shadow-md"
-                      : "bg-gray-200 hover:bg-gray-300"
+                      ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg scale-105"
+                      : "bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white"
                   }`}
                 >
                   {pageNum}

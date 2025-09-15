@@ -10,6 +10,7 @@ interface Props {
 const LikeButton: React.FC<Props> = ({ postId }) => {
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(0);
+
   useEffect(() => {
     const fetchLikes = async () => {
       try {
@@ -51,12 +52,15 @@ const LikeButton: React.FC<Props> = ({ postId }) => {
   return (
     <button
       onClick={toggleLike}
-      className={`flex items-center gap-1 ${
-        liked ? "text-red-500" : "text-gray-500"
-      } hover:text-red-600`}
+      className={`flex items-center gap-2 transition duration-300 
+        ${liked ? "text-red-500" : "text-gray-400 hover:text-red-400"}`}
     >
-      <Heart className="w-5 h-5" fill={liked ? "red" : "none"} />
-      <span>{count}</span>
+      <Heart
+        className="w-5 h-5 transition-transform duration-300"
+        fill={liked ? "currentColor" : "none"}
+        strokeWidth={1.8}
+      />
+      <span className="text-sm font-medium">{count}</span>
     </button>
   );
 };

@@ -32,27 +32,27 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-gradient-to-r from-blue-500 to-purple-600 mb-2 text-white py-4 px-6 flex justify-between items-center">
+    <header className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-gray-100 py-4 px-6 flex justify-between items-center shadow-md">
       {/* Logo / Title */}
       <div
-        className="text-2xl font-bold cursor-pointer"
+        className="text-2xl font-bold cursor-pointer bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent hover:opacity-80 transition"
         onClick={() => navigate("/posts")}
       >
         Bloggify
       </div>
 
       {/* Conditional Buttons */}
-      <div className="space-x-4">
+      <div className="space-x-3">
         {isUnprotected ? (
           <>
             <button
-              className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100"
+              className="px-4 py-2 rounded-lg bg-purple-600 text-white font-medium hover:bg-purple-500 transition"
               onClick={() => navigate("/login")}
             >
               Login
             </button>
             <button
-              className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100"
+              className="px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-500 transition"
               onClick={() => navigate("/register")}
             >
               Sign Up
@@ -62,7 +62,7 @@ const Header: React.FC = () => {
           <>
             <DashboardButton />
             <button
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              className="px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-500 transition"
               onClick={handleLogout}
             >
               Logout
