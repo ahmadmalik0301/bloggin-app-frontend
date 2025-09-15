@@ -1,7 +1,9 @@
+// src/pages/Login.tsx
 import React, { useState } from "react";
 import Input from "../components/common/Input";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 const Login: React.FC = () => {
   const navigate = useNavigate();
 
@@ -14,10 +16,7 @@ const Login: React.FC = () => {
     try {
       const res = await axios.post(
         "http://localhost:3000/auth/login",
-        {
-          email,
-          password,
-        },
+        { email, password },
         { withCredentials: true }
       );
 
@@ -77,6 +76,16 @@ const Login: React.FC = () => {
         >
           Login with Google
         </button>
+
+        {/* Forgot password link */}
+        <p className="text-sm text-center mt-4">
+          <span
+            onClick={() => navigate("/user/request-reset-password")}
+            className="text-blue-600 hover:underline cursor-pointer"
+          >
+            Forgot Password?
+          </span>
+        </p>
       </form>
     </div>
   );

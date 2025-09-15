@@ -1,0 +1,116 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+import Header from "../../components/HeaderFooter/Header";
+import Footer from "../../components/HeaderFooter/Footer";
+
+const ChangePassword: React.FC = () => {
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setMessage(null);
+    setError(null);
+
+    if (newPassword !== confirmPassword) {
+      setError("New password and confirm password do not match.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await api.post("/user/change-password", {
+        oldPassword,
+        newPassword,
+        confirmPassword,
+      });
+
+      if (res.data.status === "success") {
+        setMessage(res.data.message || "Password updated successfully.");
+
+        // Clear tokens + force logout
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500); // small delay so success message can show
+      } else {
+        setError(res.data.message || "Failed to update password.");
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <Header />
+      <main className="p-6 min-h-screen max-w-md mx-auto">
+        <h1 className="text-2xl font-bold mb-6">Change Password</h1>
+
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-md rounded-xl p-6 space-y-4"
+        >
+          {message && <p className="text-green-600">{message}</p>}
+          {error && <p className="text-red-600">{error}</p>}
+
+          <div>
+            <label className="block font-semibold mb-1">Old Password</label>
+            <input
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              required
+              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-1">New Password</label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-1">
+              Confirm New Password
+            </label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          >
+            {loading ? "Updating..." : "Change Password"}
+          </button>
+        </form>
+      </main>
+      <Footer />
+    </>
+  );
+};
+
+export default ChangePassword;
