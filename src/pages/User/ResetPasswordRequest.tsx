@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import Footer from "../../components/HeaderFooter/Footer";
+import Header from "../../components/HeaderFooter/Header";
 
 const ResetPasswordRequest: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -37,6 +38,7 @@ const ResetPasswordRequest: React.FC = () => {
 
   return (
     <>
+      <Header />
       <main className="p-6 min-h-screen max-w-md mx-auto">
         <h1 className="text-2xl font-bold mb-6">Reset Password</h1>
         <form

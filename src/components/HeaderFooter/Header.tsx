@@ -2,20 +2,28 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../services/api";
-import DashboardButton from "../common/DashboardButton"; // ✅ import your component
+import DashboardButton from "../common/DashboardButton";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isHome = location.pathname === "/";
-  const isProtected = !isHome; // everything except home is "protected"
+  // All unprotected/public routes
+  const unprotectedPaths = [
+    "/",
+    "/login",
+    "/register",
+    "/user/request-reset-password",
+    "/user/reset-password",
+  ];
+
+  const isUnprotected = unprotectedPaths.includes(location.pathname);
 
   const handleLogout = async () => {
     try {
       await api.post("/auth/logout");
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("user"); // ✅ clear stored user
+      localStorage.removeItem("user");
       navigate("/");
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
@@ -35,7 +43,7 @@ const Header: React.FC = () => {
 
       {/* Conditional Buttons */}
       <div className="space-x-4">
-        {isHome && (
+        {isUnprotected ? (
           <>
             <button
               className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100"
@@ -50,11 +58,8 @@ const Header: React.FC = () => {
               Sign Up
             </button>
           </>
-        )}
-
-        {isProtected && (
+        ) : (
           <>
-            {/* ✅ Use DashboardButton instead of hardcoding admin dashboard */}
             <DashboardButton />
             <button
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"

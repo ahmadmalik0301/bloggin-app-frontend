@@ -58,6 +58,7 @@ const ResetPassword: React.FC = () => {
 
   return (
     <>
+      <Header />
       <main className="p-6 min-h-screen max-w-md mx-auto">
         <h1 className="text-2xl font-bold mb-6">Set a New Password</h1>
         <form
