@@ -15,18 +15,26 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 
   return (
     <div
-      className="bg-white shadow-md rounded-xl p-5 flex flex-col justify-between hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+      className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg p-6 flex flex-col justify-between
+                 hover:shadow-2xl transition-shadow duration-300 cursor-pointer"
       onClick={() => navigate(`/post/${post.id}`)}
     >
-      <div>
-        <h2 className="text-xl font-bold text-blue-700">{post.title}</h2>
-        <p className="text-gray-600">{post.tagLine}</p>
-        <p className="mt-3 text-gray-800 line-clamp-3">{post.body}</p>
+      <div className="mb-5">
+        <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 mb-2">
+          {post.title}
+        </h2>
+        <p className="text-gray-500 italic mb-3">{post.tagLine}</p>
+        <p className="text-gray-700 line-clamp-3">{post.body}</p>
       </div>
+
       <div className="flex justify-between items-center mt-4">
-        <small className="text-gray-400">
-          {new Date(post.createdAt).toLocaleDateString()}
-        </small>
+        <span className="text-gray-400 text-sm">
+          {new Date(post.createdAt).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </span>
         <LikeButton postId={post.id} />
       </div>
     </div>

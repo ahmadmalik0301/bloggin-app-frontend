@@ -10,8 +10,6 @@ interface Props {
 const LikeButton: React.FC<Props> = ({ postId }) => {
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(0);
-
-  // Fetch like count and user-specific like status on mount
   useEffect(() => {
     const fetchLikes = async () => {
       try {

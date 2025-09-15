@@ -13,7 +13,7 @@ interface Post {
 
 const PostList: React.FC<{ posts: Post[] }> = ({ posts }) => {
   return (
-    <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1">
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}

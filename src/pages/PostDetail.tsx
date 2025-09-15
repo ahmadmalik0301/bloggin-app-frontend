@@ -33,6 +33,10 @@ const PostDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // pagination states
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
   const fetchPostData = async () => {
     setLoading(true);
     setError(null);
@@ -41,16 +45,14 @@ const PostDetail: React.FC = () => {
       const postRes = await api.get(`/post/${id}`);
       if (postRes.data.status === "success") setPost(postRes.data.data);
 
-      // Fetch like count and liked users in one go
-      const [countRes, usersRes, statusRes] = await Promise.all([
+      // Fetch like count & status
+      const [countRes, statusRes] = await Promise.all([
         api.get(`/like/count/${id}`),
-        api.get(`/like/users/${id}`),
         api.get(`/like/status/${id}`),
       ]);
 
       if (countRes.data.status === "success")
         setLikeCount(countRes.data.data.likeCount);
-      if (usersRes.data.status === "success") setLikedBy(usersRes.data.data);
       if (statusRes.data.status === "success")
         setLiked(statusRes.data.data.liked);
     } catch (err: any) {
@@ -61,8 +63,25 @@ const PostDetail: React.FC = () => {
     }
   };
 
+  const fetchLikers = async (pageNum: number, append = false) => {
+    try {
+      const res = await api.get(`/like/users/${id}?page=${pageNum}`);
+      if (res.data.status === "success") {
+        const { data, meta } = res.data;
+        setLikedBy((prev) => (append ? [...prev, ...data] : data));
+        setHasMore(meta.page < meta.totalPages);
+      }
+    } catch (err) {
+      console.error("Failed to fetch likers:", err);
+    }
+  };
+
   useEffect(() => {
-    fetchPostData();
+    if (id) {
+      fetchPostData();
+      fetchLikers(1, false); // load first page
+      setPage(1);
+    }
   }, [id]);
 
   const toggleLike = async () => {
@@ -73,9 +92,9 @@ const PostDetail: React.FC = () => {
         setLiked(likedNow);
         setLikeCount((prev) => (likedNow ? prev + 1 : prev - 1));
 
-        // Optimistically update likedBy
-        const usersRes = await api.get(`/like/users/${id}`);
-        if (usersRes.data.status === "success") setLikedBy(usersRes.data.data);
+        // refresh likers (start from page 1 again to stay in sync)
+        fetchLikers(1, false);
+        setPage(1);
       }
     } catch (err: any) {
       console.error(err);
@@ -95,18 +114,44 @@ const PostDetail: React.FC = () => {
         <p className="text-gray-500 mb-4">{post.tagLine}</p>
         <div className="prose max-w-full">{post.body}</div>
 
+        {/* like button */}
         <div className="mt-6 flex items-center gap-4">
           <button
-            className={`px-4 py-2 rounded ${
-              liked ? "bg-red-500 text-white" : "bg-gray-200 text-gray-800"
-            }`}
             onClick={toggleLike}
+            className={`
+              flex items-center gap-2 px-3 py-1.5 rounded-full 
+              transition-colors duration-200
+              ${
+                liked
+                  ? "bg-red-100 text-red-600 hover:bg-red-200"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }
+              font-medium
+            `}
           >
-            {liked ? "❤️ Liked" : "🤍 Like"} ({likeCount})
+            <span className="text-lg">{liked ? "❤️" : "🤍"}</span>
+            <span>{likeCount}</span>
           </button>
         </div>
 
+        {/* likers list */}
         <LikedByList users={likedBy} />
+
+        {/* load more button */}
+        {hasMore && (
+          <div className="mt-4 text-center">
+            <button
+              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              onClick={() => {
+                const nextPage = page + 1;
+                fetchLikers(nextPage, true);
+                setPage(nextPage);
+              }}
+            >
+              Load More
+            </button>
+          </div>
+        )}
 
         <p className="text-gray-400 mt-4">
           Created at: {new Date(post.createdAt).toLocaleString()}

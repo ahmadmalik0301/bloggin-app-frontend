@@ -62,25 +62,26 @@ const PostPage: React.FC = () => {
         {!loading && !error && <PostList posts={posts} />}
 
         {/* Pagination */}
-        {!loading && !error && (
-          <div className="flex justify-center items-center gap-4 mt-6">
-            <button
-              disabled={page <= 1}
-              onClick={() => setPage(page - 1)}
-              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
-            >
-              ⬅ Prev
-            </button>
-            <span className="text-lg font-semibold">
-              Page {page} of {totalPages}
-            </span>
-            <button
-              disabled={page >= totalPages}
-              onClick={() => setPage(page + 1)}
-              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
-            >
-              Next ➡
-            </button>
+        {!loading && !error && totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-6 flex-wrap">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+              (pageNum) => (
+                <button
+                  key={pageNum}
+                  onClick={() => {
+                    setPage(pageNum);
+                    window.scrollTo({ top: 0, behavior: "smooth" }); // ✅ scroll to top
+                  }}
+                  className={`px-4 py-2 rounded transition ${
+                    page === pageNum
+                      ? "bg-blue-500 text-white font-semibold shadow-md"
+                      : "bg-gray-200 hover:bg-gray-300"
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              )
+            )}
           </div>
         )}
       </main>

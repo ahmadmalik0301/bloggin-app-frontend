@@ -25,7 +25,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-blue-600 text-white py-4 px-6 flex justify-between items-center">
+    <header className="bg-gradient-to-r from-blue-500 to-purple-600 mb-2 text-white py-4 px-6 flex justify-between items-center">
       {/* Logo / Title */}
       <div
         className="text-2xl font-bold cursor-pointer"
