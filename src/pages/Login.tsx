@@ -11,6 +11,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // ---------------- Local Login ----------------
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -18,7 +19,7 @@ const Login: React.FC = () => {
       const res = await axios.post(
         "http://localhost:3000/auth/login",
         { email, password },
-        { withCredentials: true }
+        { withCredentials: true } // sends HTTP-only refresh cookie
       );
 
       if (res.data?.data?.accessToken) {
@@ -28,13 +29,14 @@ const Login: React.FC = () => {
         localStorage.setItem("user", JSON.stringify(res.data.data.user));
       }
 
-      navigate("/posts");
+      navigate("/posts", { replace: true }); // redirect after login
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
       alert(msg);
     }
   };
 
+  // ---------------- Google Login ----------------
   const handleGoogleLogin = () => {
     window.location.href = "http://localhost:3000/auth/google/login";
   };
@@ -82,7 +84,6 @@ const Login: React.FC = () => {
             Login with Google
           </button>
 
-          {/* Forgot password link */}
           <p className="text-sm text-center mt-4 text-gray-400">
             <span
               onClick={() => navigate("/user/request-reset-password")}

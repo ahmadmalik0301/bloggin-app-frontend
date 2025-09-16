@@ -15,6 +15,7 @@ import Dashboard from "./pages/User/UserDashboard";
 import ChangePassword from "./pages/User/ChangePassword";
 import ResetPasswordRequest from "./pages/User/ResetPasswordRequest";
 import ResetPassword from "./pages/User/ResetPassword";
+import GoogleCallback from "./pages/GoogleCallback";
 
 const App: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const App: React.FC = () => {
           element={<ResetPasswordRequest />}
         />
         <Route path="/user/reset-password" element={<ResetPassword />} />
+        <Route path="/auth/success" element={<GoogleCallback />} />
         {/* Protected */}
         <Route
           path="/posts"
