@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Input from "../components/common/Input";
 import Header from "../components/HeaderFooter/Header";
+import Footer from "../components/HeaderFooter/Footer";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -106,6 +107,7 @@ const Register: React.FC = () => {
           </p>
         </form>
       </div>
+      <Footer />
     </>
   );
 };
