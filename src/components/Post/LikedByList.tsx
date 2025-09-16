@@ -1,4 +1,3 @@
-// src/components/Post/LikedByList.tsx
 import React from "react";
 
 interface User {
@@ -15,7 +14,7 @@ interface Props {
 const maskEmail = (email: string) => {
   const [name, domain] = email.split("@");
   if (!name || !domain) return email;
-  const visible = name.slice(0, 2); // first 2 chars visible
+  const visible = name.slice(0, 2);
   return `${visible}***@${domain}`;
 };
 
@@ -33,12 +32,10 @@ const LikedByList: React.FC<Props> = ({ users }) => {
             key={user.id}
             className="flex items-center gap-3 bg-gray-800 p-3 rounded-lg shadow-sm hover:bg-gray-700 transition duration-300"
           >
-            {/* Avatar circle */}
             <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-full flex items-center justify-center font-bold shadow-md">
               {user.firstName[0]}
             </div>
 
-            {/* User details */}
             <div className="text-gray-300">
               {user.firstName} {user.lastName}{" "}
               <span className="text-gray-500 text-sm">

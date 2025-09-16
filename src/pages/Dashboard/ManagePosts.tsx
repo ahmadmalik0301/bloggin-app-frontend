@@ -1,4 +1,3 @@
-// src/pages/admin/ManagePosts.tsx
 import React, { useEffect, useState } from "react";
 import Header from "../../components/HeaderFooter/Header";
 import Footer from "../../components/HeaderFooter/Footer";

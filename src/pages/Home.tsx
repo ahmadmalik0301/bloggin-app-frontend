@@ -1,4 +1,3 @@
-// src/pages/Home.tsx
 import React from "react";
 import Header from "../components/HeaderFooter/Header";
 import Footer from "../components/HeaderFooter/Footer";

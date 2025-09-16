@@ -1,4 +1,3 @@
-// src/pages/AdminDashboard.tsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/HeaderFooter/Header";
@@ -54,7 +53,7 @@ const AdminDashboard: React.FC = () => {
           </button>
         </div>
 
-        {/* ✅ Notifications section */}
+        {/* Notifications section */}
         <div className="w-full max-w-lg mt-8 bg-gray-800 border border-gray-700 shadow-lg rounded-xl p-5">
           <h2 className="text-lg font-semibold mb-3 text-gray-200">
             Notifications

@@ -29,7 +29,7 @@ const Login: React.FC = () => {
         localStorage.setItem("user", JSON.stringify(res.data.data.user));
       }
 
-      navigate("/posts", { replace: true }); // redirect after login
+      navigate("/posts", { replace: true });
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
       alert(msg);

@@ -1,4 +1,3 @@
-// src/components/Post/PostList.tsx
 import React from "react";
 import PostCard from "./PostCard";
 

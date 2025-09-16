@@ -1,4 +1,3 @@
-// src/components/Post/PostLike.tsx
 import React, { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import api from "../../services/api";
@@ -14,13 +13,11 @@ const LikeButton: React.FC<Props> = ({ postId }) => {
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        // 1️⃣ Get total likes
         const countRes = await api.get(`/like/count/${postId}`);
         if (countRes.data.status === "success") {
           setCount(countRes.data.data.likeCount);
         }
 
-        // 2️⃣ Get whether current user has liked
         const statusRes = await api.get(`/like/status/${postId}`);
         if (statusRes.data.status === "success") {
           setLiked(statusRes.data.data.liked);
@@ -34,14 +31,13 @@ const LikeButton: React.FC<Props> = ({ postId }) => {
   }, [postId]);
 
   const toggleLike = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click navigation
+    e.stopPropagation();
 
     try {
       const res = await api.post(`/like/toggle/${postId}`);
       if (res.data.status === "success") {
         setLiked(res.data.data.liked);
 
-        // Update like count locally
         setCount((prev) => prev + (res.data.data.liked ? 1 : -1));
       }
     } catch (err) {

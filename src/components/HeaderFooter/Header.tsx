@@ -1,4 +1,3 @@
-// src/components/HeaderFooter/Header.tsx
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../services/api";
@@ -8,7 +7,6 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // All unprotected/public routes
   const unprotectedPaths = [
     "/",
     "/login",
@@ -33,7 +31,6 @@ const Header: React.FC = () => {
 
   return (
     <header className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-gray-100 py-4 px-6 flex justify-between items-center shadow-md">
-      {/* Logo / Title */}
       <div
         className="text-2xl font-bold cursor-pointer bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent hover:opacity-80 transition"
         onClick={() => navigate("/posts")}
@@ -41,7 +38,6 @@ const Header: React.FC = () => {
         Bloggify
       </div>
 
-      {/* Conditional Buttons */}
       <div className="space-x-3">
         {isUnprotected ? (
           <>

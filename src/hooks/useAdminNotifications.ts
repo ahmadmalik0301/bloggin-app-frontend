@@ -23,12 +23,10 @@ export function useAdminNotifications(token: string | null) {
       console.log("✅ Connected to notification server");
     });
 
-    // 👉 Receive backlog on connect
     socket.on("notification-backlog", (data: Notification[]) => {
       setNotifications(data);
     });
 
-    // 👉 Receive new notification
     socket.on("new-user-signup", (data: Notification) => {
       setNotifications((prev) => [data, ...prev]);
     });
