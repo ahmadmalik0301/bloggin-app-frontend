@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../services/api";
 import DashboardButton from "../common/DashboardButton";
@@ -6,6 +6,7 @@ import DashboardButton from "../common/DashboardButton";
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [loggingOut, setLoggingOut] = useState(false); // loading state
 
   const unprotectedPaths = [
     "/",
@@ -18,14 +19,27 @@ const Header: React.FC = () => {
   const isUnprotected = unprotectedPaths.includes(location.pathname);
 
   const handleLogout = async () => {
+    setLoggingOut(true); // start loading
     try {
-      await api.post("/auth/logout");
+      const res = await api.post("/auth/logout");
+
+      if (res.data?.status === "error") {
+        const msg = res.data?.message || "Unexpected error occurred.";
+        alert(msg);
+        setLoggingOut(false);
+        return;
+      }
+
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
       navigate("/");
     } catch (err: any) {
-      const msg = err.response?.data?.message || "Unexpected error occurred.";
+      const msg =
+        err.response?.data?.message ||
+        err.message ||
+        "Unexpected error occurred.";
       alert(msg);
+      setLoggingOut(false);
     }
   };
 
@@ -58,10 +72,15 @@ const Header: React.FC = () => {
           <>
             <DashboardButton />
             <button
-              className="px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-500 transition"
+              className={`px-4 py-2 rounded-lg bg-red-600 text-white font-medium transition ${
+                loggingOut
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-red-500"
+              }`}
               onClick={handleLogout}
+              disabled={loggingOut}
             >
-              Logout
+              {loggingOut ? "Logging out..." : "Logout"}
             </button>
           </>
         )}

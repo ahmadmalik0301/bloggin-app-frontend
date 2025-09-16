@@ -17,8 +17,13 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Loading states
+  const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     const payload: any = { firstName, email, password };
     if (lastName.trim()) payload.lastName = lastName;
@@ -30,10 +35,13 @@ const Register: React.FC = () => {
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
       alert(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGoogleSignUp = () => {
+    setGoogleLoading(true);
     window.location.href = `${apiUrl}/auth/google/login`;
   };
 
@@ -83,17 +91,23 @@ const Register: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full py-2 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-md"
+            disabled={loading}
+            className={`w-full py-2 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-md ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
 
           <button
             type="button"
             onClick={handleGoogleSignUp}
-            className="w-full mt-2 py-2 rounded-xl font-semibold text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 transition-all duration-200 shadow-md"
+            disabled={googleLoading}
+            className={`w-full mt-2 py-2 rounded-xl font-semibold text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 transition-all duration-200 shadow-md ${
+              googleLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Sign Up with Google
+            {googleLoading ? "Redirecting..." : "Sign Up with Google"}
           </button>
 
           {/* Already have account link */}

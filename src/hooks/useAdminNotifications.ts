@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 interface Notification {
   id: string;
   message: string;
@@ -13,7 +13,7 @@ export function useAdminNotifications(token: string | null) {
   useEffect(() => {
     if (!token) return;
 
-    const socket: Socket = io("http://localhost:3001", {
+    const socket: Socket = io(apiUrl, {
       extraHeaders: {
         Authorization: `Bearer ${token}`,
       },
