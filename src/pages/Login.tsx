@@ -18,9 +18,9 @@ const Login: React.FC = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/auth/login",
+        `${import.meta.env.VITE_API_URL}/auth/login`,
         { email, password },
-        { withCredentials: true } // sends HTTP-only refresh cookie
+        { withCredentials: true }
       );
 
       if (res.data?.data?.accessToken) {
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
 
   // ---------------- Google Login ----------------
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3000/auth/google/login";
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/login`;
   };
 
   return (

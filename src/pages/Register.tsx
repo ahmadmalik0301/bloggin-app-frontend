@@ -24,7 +24,7 @@ const Register: React.FC = () => {
     if (dateOfBirth.trim()) payload.dateOfBirth = dateOfBirth;
 
     try {
-      await axios.post("http://localhost:3000/auth/signup", payload);
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`, payload);
       navigate("/login");
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
@@ -33,7 +33,7 @@ const Register: React.FC = () => {
   };
 
   const handleGoogleSignUp = () => {
-    window.location.href = "http://localhost:3000/auth/google/login";
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/login`;
   };
 
   return (
