@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/HeaderFooter/Header";
 import Footer from "../components/HeaderFooter/Footer";
-import api from "../services/api";
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const Login: React.FC = () => {
