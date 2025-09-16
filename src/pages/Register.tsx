@@ -5,6 +5,7 @@ import axios from "axios";
 import Input from "../components/common/Input";
 import Header from "../components/HeaderFooter/Header";
 import Footer from "../components/HeaderFooter/Footer";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Register: React.FC = () => {
     if (dateOfBirth.trim()) payload.dateOfBirth = dateOfBirth;
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`, payload);
+      await axios.post(`${apiUrl}/auth/signup`, payload);
       navigate("/login");
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
@@ -33,7 +34,7 @@ const Register: React.FC = () => {
   };
 
   const handleGoogleSignUp = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/login`;
+    window.location.href = `${apiUrl}/auth/google/login`;
   };
 
   return (

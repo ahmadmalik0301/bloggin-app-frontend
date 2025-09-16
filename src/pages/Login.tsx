@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/HeaderFooter/Header";
 import Footer from "../components/HeaderFooter/Footer";
+import api from "../services/api";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const Login: React.FC = () => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
+        `${apiUrl}/auth/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -39,7 +41,7 @@ const Login: React.FC = () => {
 
   // ---------------- Google Login ----------------
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/login`;
+    window.location.href = `${apiUrl}/auth/google/login`;
   };
 
   return (
