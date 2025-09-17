@@ -20,7 +20,7 @@ export function useAdminNotifications(token: string | null) {
     });
 
     socket.on("connect", () => {
-      console.log("✅ Connected to notification server");
+      console.log("Connected to notification server");
     });
 
     socket.on("notification-backlog", (data: Notification[]) => {
@@ -32,7 +32,7 @@ export function useAdminNotifications(token: string | null) {
     });
 
     socket.on("disconnect", () => {
-      console.log("❌ Disconnected from notification server");
+      console.log("Disconnected from notification server");
     });
 
     return () => {

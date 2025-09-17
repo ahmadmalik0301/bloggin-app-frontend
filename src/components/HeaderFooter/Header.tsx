@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../services/api";
 import DashboardButton from "../common/DashboardButton";
 import { toast } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -20,8 +21,21 @@ const Header: React.FC = () => {
   const isUnprotected = unprotectedPaths.includes(location.pathname);
 
   const handleLogout = async () => {
-    setLoggingOut(true);
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You will have to login again!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, logout!",
+      background: "linear-gradient(to right, #1f2937, #111827)",
+      color: "#f9fafb",
+    });
 
+    if (!result.isConfirmed) return;
+
+    setLoggingOut(true);
     const toastId = toast.loading("Logging out...");
 
     try {
@@ -34,6 +48,7 @@ const Header: React.FC = () => {
         return;
       }
 
+      // Clear local storage
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
 

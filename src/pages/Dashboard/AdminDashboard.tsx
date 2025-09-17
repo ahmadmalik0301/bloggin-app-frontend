@@ -58,10 +58,11 @@ const AdminDashboard: React.FC = () => {
           <h2 className="text-lg font-semibold mb-3 text-gray-200">
             Notifications
           </h2>
+
           {notifications.length === 0 ? (
             <p className="text-gray-500 italic">No notifications yet</p>
           ) : (
-            <ul className="space-y-3 max-h-60 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+            <ul className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
               {notifications.map((note, idx) => (
                 <li
                   key={note.id || idx}
