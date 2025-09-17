@@ -12,8 +12,9 @@ interface Post {
   body: string;
   createdAt: string;
   updatedAt: string;
+  likeCount: number;
+  liked: boolean;
 }
-
 const PostPage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState(1);

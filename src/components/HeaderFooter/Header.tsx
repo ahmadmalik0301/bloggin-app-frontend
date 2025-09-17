@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../../services/api";
 import DashboardButton from "../common/DashboardButton";
+import { toast } from "react-hot-toast";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [loggingOut, setLoggingOut] = useState(false); // loading state
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const unprotectedPaths = [
     "/",
@@ -19,26 +20,31 @@ const Header: React.FC = () => {
   const isUnprotected = unprotectedPaths.includes(location.pathname);
 
   const handleLogout = async () => {
-    setLoggingOut(true); // start loading
+    setLoggingOut(true);
+
+    const toastId = toast.loading("Logging out...");
+
     try {
       const res = await api.post("/auth/logout");
 
       if (res.data?.status === "error") {
         const msg = res.data?.message || "Unexpected error occurred.";
-        alert(msg);
+        toast.error(msg, { id: toastId });
         setLoggingOut(false);
         return;
       }
 
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
+
+      toast.success("Logged out successfully!", { id: toastId });
       navigate("/");
     } catch (err: any) {
       const msg =
         err.response?.data?.message ||
         err.message ||
         "Unexpected error occurred.";
-      alert(msg);
+      toast.error(msg, { id: toastId });
       setLoggingOut(false);
     }
   };

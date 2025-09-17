@@ -5,19 +5,19 @@ import axios from "axios";
 import Input from "../components/common/Input";
 import Header from "../components/HeaderFooter/Header";
 import Footer from "../components/HeaderFooter/Footer";
+import toast from "react-hot-toast";
+
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
 
-  // Form state
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Loading states
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -31,10 +31,15 @@ const Register: React.FC = () => {
 
     try {
       await axios.post(`${apiUrl}/auth/signup`, payload);
+
+      toast.success("Account created successfully! Please log in.", {
+        duration: 3000,
+      });
+
       navigate("/login");
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
-      alert(msg);
+      toast.error(msg, { duration: 3000 });
     } finally {
       setLoading(false);
     }

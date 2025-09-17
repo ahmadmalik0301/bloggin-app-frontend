@@ -4,6 +4,7 @@ import Footer from "../../components/HeaderFooter/Footer";
 import Input from "../../components/common/Input";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const CreatePost: React.FC = () => {
   const navigate = useNavigate();
@@ -17,19 +18,24 @@ const CreatePost: React.FC = () => {
     e.preventDefault();
     setLoading(true);
 
+    // show loading toast
+    const toastId = toast.loading("Creating your post...");
+
     try {
       const payload = { title, tagLine, body };
       const res = await api.post("/post", payload);
 
       if (res.data.status === "success") {
-        alert("Post created successfully!");
+        toast.success("Post created successfully!", { id: toastId });
         navigate("/admin/dashboard");
       } else {
-        alert(res.data.message || "Failed to create post");
+        toast.error(res.data.message || "Failed to create post", {
+          id: toastId,
+        });
       }
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
-      alert(msg);
+      toast.error(msg, { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -75,13 +81,13 @@ const CreatePost: React.FC = () => {
           <button
             type="submit"
             className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold
-    transition-transform duration-300 transform 
-    ${
-      loading
-        ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-        : "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:scale-105 hover:shadow-xl"
-    }
-  `}
+              transition-transform duration-300 transform 
+              ${
+                loading
+                  ? "bg-gray-600 text-gray-300 cursor-not-allowed"
+                  : "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:scale-105 hover:shadow-xl"
+              }
+            `}
             disabled={loading}
           >
             {loading ? (

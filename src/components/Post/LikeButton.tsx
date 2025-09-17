@@ -1,34 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Heart } from "lucide-react";
 import api from "../../services/api";
 
 interface Props {
   postId: string;
+  initialLiked: boolean;
+  initialCount: number;
 }
 
-const LikeButton: React.FC<Props> = ({ postId }) => {
-  const [liked, setLiked] = useState(false);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const countRes = await api.get(`/like/count/${postId}`);
-        if (countRes.data.status === "success") {
-          setCount(countRes.data.data.likeCount);
-        }
-
-        const statusRes = await api.get(`/like/status/${postId}`);
-        if (statusRes.data.status === "success") {
-          setLiked(statusRes.data.data.liked);
-        }
-      } catch (err) {
-        console.error("Failed to fetch like info:", err);
-      }
-    };
-
-    fetchLikes();
-  }, [postId]);
+const LikeButton: React.FC<Props> = ({
+  postId,
+  initialLiked,
+  initialCount,
+}) => {
+  const [liked, setLiked] = useState(initialLiked);
+  const [count, setCount] = useState(initialCount);
 
   const toggleLike = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -36,9 +22,9 @@ const LikeButton: React.FC<Props> = ({ postId }) => {
     try {
       const res = await api.post(`/like/toggle/${postId}`);
       if (res.data.status === "success") {
-        setLiked(res.data.data.liked);
-
-        setCount((prev) => prev + (res.data.data.liked ? 1 : -1));
+        const newLiked = res.data.data.liked;
+        setLiked(newLiked);
+        setCount((prev) => prev + (newLiked ? 1 : -1));
       }
     } catch (err) {
       console.error("Failed to toggle like:", err);

@@ -8,6 +8,8 @@ interface Post {
   body: string;
   createdAt: string;
   updatedAt: string;
+  likeCount: number;
+  liked: boolean;
 }
 
 const PostList: React.FC<{ posts: Post[] }> = ({ posts }) => {

@@ -8,6 +8,9 @@ interface Post {
   tagLine: string;
   body: string;
   createdAt: string;
+  updatedAt: string;
+  likeCount: number;
+  liked: boolean;
 }
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
@@ -37,7 +40,11 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
             day: "numeric",
           })}
         </span>
-        <LikeButton postId={post.id} />
+        <LikeButton
+          postId={post.id}
+          initialLiked={post.liked}
+          initialCount={post.likeCount}
+        />
       </div>
     </div>
   );

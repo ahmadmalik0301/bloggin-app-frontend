@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import toast from "react-hot-toast";
 
 const GoogleCallback: React.FC = () => {
   const navigate = useNavigate();
   const handledRef = useRef(false);
-
   useEffect(() => {
     if (handledRef.current) return;
     handledRef.current = true;
@@ -15,6 +15,7 @@ const GoogleCallback: React.FC = () => {
       .then((res) => {
         if (res.data?.data?.user) {
           localStorage.setItem("user", JSON.stringify(res.data.data.user));
+          toast.success("Login successful! Welcome back.");
           navigate("/posts", { replace: true });
         } else {
           throw new Error("No user in response");

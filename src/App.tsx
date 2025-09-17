@@ -1,6 +1,7 @@
-// src/App.tsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -15,7 +16,8 @@ import Dashboard from "./pages/User/UserDashboard";
 import ChangePassword from "./pages/User/ChangePassword";
 import ResetPasswordRequest from "./pages/User/ResetPasswordRequest";
 import ResetPassword from "./pages/User/ResetPassword";
-import GoogleCallback from "./pages/GoogleCallback";
+import GoogleCallback from "./pages/GoogleAuthSuccess";
+import AuthFailure from "./pages/GoogleAuthFailure";
 
 const App: React.FC = () => {
   return (
@@ -31,6 +33,8 @@ const App: React.FC = () => {
         />
         <Route path="/user/reset-password" element={<ResetPassword />} />
         <Route path="/auth/success" element={<GoogleCallback />} />
+        <Route path="/auth/failure" element={<AuthFailure />} />
+
         {/* Protected */}
         <Route
           path="/posts"
@@ -39,7 +43,7 @@ const App: React.FC = () => {
               <Posts />
             </ProtectedRoute>
           }
-        />{" "}
+        />
         <Route
           path="/dashboard"
           element={
@@ -64,6 +68,7 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
+
         {/* Admin Only */}
         <Route
           path="/admin/dashboard"
@@ -90,6 +95,33 @@ const App: React.FC = () => {
           }
         />
       </Routes>
+
+      {/* 🌟 Global Toaster (available everywhere) */}
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "linear-gradient(to right, #1f2937, #111827)", // dark gradient
+            color: "#f9fafb", // light text
+            border: "1px solid #374151",
+            borderRadius: "12px",
+            padding: "12px 16px",
+          },
+          success: {
+            iconTheme: {
+              primary: "#60a5fa", // blue
+              secondary: "#111827", // dark
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#f87171", // red
+              secondary: "#111827",
+            },
+          },
+        }}
+      />
     </Router>
   );
 };

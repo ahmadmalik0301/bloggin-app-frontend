@@ -3,6 +3,8 @@ import Header from "../../components/HeaderFooter/Header";
 import Footer from "../../components/HeaderFooter/Footer";
 import api from "../../services/api";
 import Loader from "../../components/common/Loader";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 interface Post {
   id: string;
@@ -45,17 +47,26 @@ const ManagePosts: React.FC = () => {
   }, [page]);
 
   const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this post?"
-    );
-    if (!confirmDelete) return;
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444", // Tailwind red-500
+      cancelButtonColor: "#6b7280", // Tailwind gray-500
+      confirmButtonText: "Yes, delete it!",
+      background: "linear-gradient(to right, #1f2937, #111827)", // ✅ dark gradient
+      color: "#f9fafb", // light text
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       await api.delete(`/post/${id}`);
       setPosts(posts.filter((p) => p.id !== id));
-      alert("Post deleted successfully");
+      toast.success("Post deleted successfully");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Failed to delete post");
+      toast.error(err.response?.data?.message || "Failed to delete post");
     }
   };
 
@@ -74,9 +85,9 @@ const ManagePosts: React.FC = () => {
       const updatedPost = res.data.data;
       setPosts(posts.map((p) => (p.id === updatedPost.id ? updatedPost : p)));
       setEditingPost(null);
-      alert("Post updated successfully");
+      toast.success("Post updated successfully");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Failed to update post");
+      toast.error(err.response?.data?.message || "Failed to update post");
     } finally {
       setUpdating(false);
     }
@@ -93,44 +104,47 @@ const ManagePosts: React.FC = () => {
 
         {!loading && !error && (
           <>
-            <table className="min-w-full bg-gray-800 border border-gray-700 rounded-lg overflow-hidden">
-              <thead className="bg-gray-700 text-gray-100">
-                <tr>
-                  <th className="py-3 px-4 text-left">Title</th>
-                  <th className="py-3 px-4 text-left">Tagline</th>
-                  <th className="py-3 px-4 text-left">Date</th>
-                  <th className="py-3 px-4 text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {posts.map((post) => (
-                  <tr
-                    key={post.id}
-                    className="border-b border-gray-700 hover:bg-gray-700 transition"
-                  >
-                    <td className="py-3 px-4">{post.title}</td>
-                    <td className="py-3 px-4">{post.tagLine}</td>
-                    <td className="py-3 px-4">
-                      {new Date(post.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="py-3 px-4 flex gap-2 justify-center">
-                      <button
-                        onClick={() => setEditingPost(post)}
-                        className="px-3 py-1 rounded-md bg-indigo-500 text-white font-medium hover:bg-indigo-400 transition"
-                      >
-                        Update
-                      </button>
-                      <button
-                        onClick={() => handleDelete(post.id)}
-                        className="px-3 py-1 rounded-md bg-red-600 text-white font-medium hover:bg-red-500 transition"
-                      >
-                        Delete
-                      </button>
-                    </td>
+            {/* Responsive table container */}
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-gray-800 border border-gray-700 rounded-lg">
+                <thead className="bg-gray-700 text-gray-100">
+                  <tr>
+                    <th className="py-3 px-4 text-left">Title</th>
+                    <th className="py-3 px-4 text-left">Tagline</th>
+                    <th className="py-3 px-4 text-left">Date</th>
+                    <th className="py-3 px-4 text-center">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {posts.map((post) => (
+                    <tr
+                      key={post.id}
+                      className="border-b border-gray-700 hover:bg-gray-700 transition"
+                    >
+                      <td className="py-3 px-4">{post.title}</td>
+                      <td className="py-3 px-4">{post.tagLine}</td>
+                      <td className="py-3 px-4">
+                        {new Date(post.createdAt).toLocaleDateString()}
+                      </td>
+                      <td className="py-3 px-4 flex flex-wrap gap-2 justify-center">
+                        <button
+                          onClick={() => setEditingPost(post)}
+                          className="px-3 py-1 rounded-md bg-indigo-500 text-white font-medium hover:bg-indigo-400 transition"
+                        >
+                          Update
+                        </button>
+                        <button
+                          onClick={() => handleDelete(post.id)}
+                          className="px-3 py-1 rounded-md bg-red-600 text-white font-medium hover:bg-red-500 transition"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
             {/* Pagination */}
             <div className="flex justify-center items-center gap-2 mt-6 flex-wrap">
@@ -169,7 +183,7 @@ const ManagePosts: React.FC = () => {
 
         {/* Update Modal */}
         {editingPost && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 px-4">
             <div className="bg-gray-800 border border-gray-700 text-gray-100 rounded-lg shadow-lg p-6 w-full max-w-md">
               <h2 className="text-2xl font-bold mb-4">Update Post</h2>
               <form onSubmit={handleUpdateSubmit} className="space-y-4">
@@ -217,7 +231,7 @@ const ManagePosts: React.FC = () => {
                   />
                 </div>
 
-                <div className="flex justify-end gap-2">
+                <div className="flex justify-end gap-2 flex-wrap">
                   <button
                     type="button"
                     onClick={() => setEditingPost(null)}

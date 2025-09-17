@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/HeaderFooter/Header";
 import Footer from "../components/HeaderFooter/Footer";
+import toast from "react-hot-toast"; // ✅ import toast
+
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const Login: React.FC = () => {
@@ -13,7 +15,6 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Loading state for buttons
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
@@ -35,10 +36,11 @@ const Login: React.FC = () => {
         localStorage.setItem("user", JSON.stringify(res.data.data.user));
       }
 
+      toast.success("Login successful! Welcome back.");
       navigate("/posts", { replace: true });
     } catch (err: any) {
       const msg = err.response?.data?.message || "Unexpected error occurred.";
-      alert(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
