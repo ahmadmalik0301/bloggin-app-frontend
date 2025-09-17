@@ -24,7 +24,10 @@ const GoogleCallback: React.FC = () => {
       .catch(() => {
         navigate("/login", { replace: true });
         toast.error(
-          "Google login failed. Enable Third Party Cookies and try again."
+          "Google login failed. Enable Third Party Cookies and try again.",
+          {
+            duration: 10000,
+          }
         );
       });
   }, [navigate]);
