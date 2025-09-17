@@ -22,12 +22,14 @@ const GoogleCallback: React.FC = () => {
         }
       })
       .catch(() => {
-        navigate("/login", { replace: true });
+        toast.error(
+          "Google login failed. Enable Third Party Cookies and try again.",
+          { duration: 5000 }
+        );
+
         setTimeout(() => {
-          toast.error(
-            "Google login failed. Enable Third Party Cookies and try again."
-          );
-        }, 1500);
+          navigate("/login", { replace: true });
+        }, 700);
       });
   }, [navigate]);
 
