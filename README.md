@@ -1,69 +1,44 @@
-# React + TypeScript + Vite
+# 📝 Blogging Platform Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A frontend for the Blogging Platform built with **Vite**, **React**, and **TypeScript**, providing a user-friendly interface for viewing and interacting with blog posts. Features include authentication, post liking, and real-time notifications.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **Authentication**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+  - Login & Signup pages
+  - Google OAuth support
+  - Access & Refresh tokens integration with backend
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Post Interactions**
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+  - View all blog posts
+  - Like/unlike posts
+  - Real-time notifications when posts are liked (via WebSocket)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Responsive UI**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+  - Mobile-friendly layout
+  - Clean and intuitive design
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Integration**
+  - Works seamlessly with the **Blogging Platform Backend**
+  - Fetches posts, notifications, and user data from backend API
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 🛠️ Tech Stack
+
+- [Vite](https://vitejs.dev/) — Fast frontend build tool
+- [React](https://reactjs.org/) — Frontend library
+- [TypeScript](https://www.typescriptlang.org/) — Type safety
+- [TailwindCSS](https://tailwindcss.com/) — Styling (if used)
+- [Socket.IO Client](https://socket.io/docs/v4/client-api/) — Real-time notifications
+- [Axios / Fetch API](https://axios-http.com/) — API requests
+
+## 🌐 Live Demo
+
+You can access the live frontend here:  
+[Live Demo ->](https://bloggify-0324.up.railway.app/)

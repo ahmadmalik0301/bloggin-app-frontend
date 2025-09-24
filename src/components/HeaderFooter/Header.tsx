@@ -54,7 +54,8 @@ const Header: React.FC = () => {
 
       toast.success("Logged out successfully!", { id: toastId });
       navigate("/");
-    } catch (err: any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err:any) {
       const msg =
         err.response?.data?.message ||
         err.message ||
